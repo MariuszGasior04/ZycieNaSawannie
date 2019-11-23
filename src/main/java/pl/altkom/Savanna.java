@@ -3,6 +3,7 @@ package pl.altkom;
 import pl.altkom.plants.Grass;
 
 import java.util.Random;
+import java.util.function.UnaryOperator;
 
 public class Savanna {
     private Cell[][] cells;
@@ -38,5 +39,9 @@ public class Savanna {
             }
 
         }
+    }
+    //zastąpić pętle for for metodą forEach
+    private void forEach(UnaryOperator<Cell>f){
+
     }
 }
