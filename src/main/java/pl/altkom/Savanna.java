@@ -1,5 +1,8 @@
 package pl.altkom;
 
+import pl.altkom.animals.Animal;
+import pl.altkom.animals.Giraffe;
+import pl.altkom.animals.Zebra;
 import pl.altkom.plants.Acacia;
 import pl.altkom.plants.Grass;
 
@@ -10,6 +13,7 @@ public class Savanna {
     private Cell[][] cells;
     private int rows;
     private int cols;
+
 
     //konstruktor sawanny
     public Savanna(int rows, int cols, int trees) {
@@ -44,6 +48,9 @@ public class Savanna {
         }
     }
 
+    public void addHerbivore(){
+
+    }
     private void forEach(UnaryOperator<Cell> f) {
 
     }
