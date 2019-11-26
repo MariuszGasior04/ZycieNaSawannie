@@ -22,10 +22,6 @@ public class Giraffe implements Herbivore {
         return new Giraffe(this.row,this.col);
     }
 
-    @Override
-    public void eat() {
-
-    }
 
     @Override
     public void beEaten() {

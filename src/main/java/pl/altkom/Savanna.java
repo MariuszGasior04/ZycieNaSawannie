@@ -22,10 +22,10 @@ public class Savanna {
         this.rows = rows;
         this.cols = cols;
         this.animals = new ArrayList<>();
+        this.cells = new HashSet<Cell>();
         Random random = new Random();
-        cells = new HashSet<Cell>();
 
-        //tworzymy plansze
+        //tworzymy pustą plansze
         for (int c = 0; c < cols; c++) {
             for (int r = 0; r < rows; r++) {
                 cells.add(new Cell(r,c));
@@ -38,11 +38,12 @@ public class Savanna {
                 r = random.nextInt(rows);
                 c = random.nextInt(cols);
                 for(Cell cell: cells){
-                    if(cell.getRow()==r && cell.getColumn() ==c){
+                    if(cell.getRow()==r && cell.getColumn()==c){
                         cell.withTree(new Acacia());
                     }
                 }
         }
+
         //pozostałe pola zapełniamy trawą
         for(Cell cell:cells){
             if(cell.getPlant()==null){
@@ -55,19 +56,14 @@ public class Savanna {
             this.animals.add(new Zebra(random.nextInt(rows),random.nextInt(cols)));
         }
 
-
     }
+
     //metoda symulująca upływ dnia i jednoczesny wzrost roślin
     public void oneDay() {
         cells.forEach(cell->cell.getPlant().grow());
-        try{
-            animals.forEach(n->n.walk());
-        }
-        catch(ArrayIndexOutOfBoundsException e)
-        {
-        }
 
-        }
+        animals.forEach(n->n.walk());
+    }
 
 
     private void forEach(UnaryOperator<Cell> f) {

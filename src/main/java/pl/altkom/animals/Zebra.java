@@ -13,11 +13,6 @@ public class Zebra implements Herbivore {
     }
 
     @Override
-    public void eat() {
-
-    }
-
-    @Override
     public void beEaten() {
         try {
             this.finalize();
