@@ -6,51 +6,70 @@ import pl.altkom.animals.Zebra;
 import pl.altkom.plants.Acacia;
 import pl.altkom.plants.Grass;
 
-import java.util.Random;
+import java.util.*;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class Savanna {
-    private Cell[][] cells;
+    private Set<Cell> cells;
+    private List<Animal> animals;
     private int rows;
     private int cols;
 
 
     //konstruktor sawanny
-    public Savanna(int rows, int cols, int trees) {
+    public Savanna(int rows, int cols, int trees, int animals) {
         this.rows = rows;
         this.cols = cols;
+        this.animals = new ArrayList<>();
         Random random = new Random();
-        cells = new Cell[rows][cols];
+        cells = new HashSet<Cell>();
+
+        //tworzymy plansze
+        for (int c = 0; c < cols; c++) {
+            for (int r = 0; r < rows; r++) {
+                cells.add(new Cell(r,c));
+            }
+        }
+
         //zapełniamy planszę drzwami
         for (int i = 0; i < trees; i++) {
             int r, c;
-            do {
                 r = random.nextInt(rows);
                 c = random.nextInt(cols);
-            } while (cells[r][c] != null);
-            cells[r][c] = Cell.withTree(new Acacia());
+                for(Cell cell: cells){
+                    if(cell.getRow()==r && cell.getColumn() ==c){
+                        cell.withTree(new Acacia());
+                    }
+                }
         }
         //pozostałe pola zapełniamy trawą
-        for (int c = 0; c < cols; c++) {
-            for (int r = 0; r < rows; r++) {
-                if (cells[r][c] == null) {
-                    cells[r][c] = Cell.withGrass(new Grass());
-                }
+        for(Cell cell:cells){
+            if(cell.getPlant()==null){
+                cell.withGrass(new Grass());
             }
         }
+
+        //dodajemy zwierzęta do Sawanny
+        for(int i =0; i< animals;i++){
+            this.animals.add(new Zebra(random.nextInt(rows),random.nextInt(cols)));
+        }
+
+
     }
     //metoda symulująca upływ dnia i jednoczesny wzrost roślin
     public void oneDay() {
-        for (int c = 0; c < cols; c++) {
-            for (int r = 0; r < rows; r++){
-                cells[r][c].getPlant().grow();
-            }
+        cells.forEach(cell->cell.getPlant().grow());
+        try{
+            animals.forEach(n->n.walk());
         }
-    }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+        }
 
-    public void addHerbivore(){
+        }
 
-    }
+
     private void forEach(UnaryOperator<Cell> f) {
 
     }

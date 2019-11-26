@@ -28,8 +28,8 @@ public class Zebra implements Herbivore {
 
     @Override
     public void walk() {
-        this.row+= (rand.nextInt(3))-1;
-        this.col+= (rand.nextInt(3))-1;
+        this.row+= rand.nextInt(3)-rand.nextInt(3);
+        this.col+= rand.nextInt(3)-rand.nextInt(3);
     }
 
     @Override
