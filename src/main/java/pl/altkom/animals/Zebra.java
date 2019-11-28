@@ -22,13 +22,42 @@ public class Zebra implements Herbivore {
     }
 
     @Override
-    public void walk() {
-        this.row+= rand.nextInt(3)-rand.nextInt(3);
-        this.col+= rand.nextInt(3)-rand.nextInt(3);
+    public void walk(int dist) {
+        this.row+= dist;
+        this.col+= dist;
+
     }
 
     @Override
     public Animal reproduce() {
         return new Zebra(this.row, this.col);
+    }
+
+    @Override
+    public int getRow() {
+        return row;
+    }
+
+    @Override
+    public int getCol() {
+        return col;
+    }
+
+    @Override
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    @Override
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    @Override
+    public String toString() {
+        return "Zebra{" +
+                "row= " + row +
+                ", col= " + col +
+                '}';
     }
 }

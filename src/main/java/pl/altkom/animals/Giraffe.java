@@ -12,9 +12,30 @@ public class Giraffe implements Herbivore {
     }
 
     @Override
-    public void walk() {
-        this.row+= (rand.nextInt(3))-1;
-        this.col+= (rand.nextInt(3))-1;
+    public int getRow() {
+        return row;
+    }
+
+    @Override
+    public int getCol() {
+        return col;
+    }
+
+    @Override
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+
+    @Override
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    @Override
+    public void walk(int dist) {
+        this.row+= dist;
+        this.col+= dist;
     }
 
     @Override

@@ -7,7 +7,6 @@ import pl.altkom.plants.Acacia;
 import pl.altkom.plants.Grass;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class Savanna {
@@ -15,7 +14,7 @@ public class Savanna {
     private List<Animal> animals;
     private int rows;
     private int cols;
-
+    Random random = new Random();
 
     //konstruktor sawanny
     public Savanna(int rows, int cols, int trees, int animals) {
@@ -58,11 +57,24 @@ public class Savanna {
 
     }
 
-    //metoda symulująca upływ dnia i jednoczesny wzrost roślin
+    //metoda symulująca upływ dnia, jednoczesny wzrost roślin, poruszanie się zwierząt
     public void oneDay() {
+
         cells.forEach(cell->cell.getPlant().grow());
 
-        animals.forEach(n->n.walk());
+        animals.forEach(n->{
+            n.walk(random.nextInt(3));
+            if(n.getRow()>this.rows){
+                n.setRow(this.rows);
+            }else if (n.getRow()<0){
+                n.setRow(0);
+            }
+            if(n.getCol()>this.cols){
+                n.setCol(this.cols);
+            }else if (n.getCol()<0){
+                n.setCol(0);
+            }
+        });
     }
 
 
@@ -70,6 +82,12 @@ public class Savanna {
 
     }
 
+    public Set<Cell> getCells() {
+        return cells;
+    }
 
+    public List<Animal> getAnimals() {
+        return animals;
+    }
 }
 

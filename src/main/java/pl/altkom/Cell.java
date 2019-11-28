@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public class Cell {
     private Plant plant;
+    private boolean isAnimal;
     private int row;
     private int column;
 
@@ -55,5 +56,14 @@ public class Cell {
     @Override
     public int hashCode() {
         return Objects.hash(getPlant(), row, column);
+    }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                  plant +
+                ", row= " + row +
+                ", column= " + column +
+                '}';
     }
 }
