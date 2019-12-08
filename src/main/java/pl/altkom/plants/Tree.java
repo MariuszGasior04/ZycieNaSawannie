@@ -14,8 +14,17 @@ public abstract class Tree implements Plant {
         }
     }
 
+    public void plantSize() {
+        System.out.print("T"+branches);
+    }
+
     @Override
     public void beEaten() {
         branches--;
+    }
+
+    public void setPlantSize0() {
+        if(this.branches<0){
+            this.branches = 0;}
     }
 }

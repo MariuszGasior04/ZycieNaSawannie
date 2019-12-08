@@ -1,11 +1,10 @@
 package pl.altkom.animals;
 
-public class Giraffe implements Animal {
+public class Lion implements Animal {
     private int row;
     private int col;
 
-
-    public Giraffe(int row, int col){
+    public Lion(int row, int col) {
         this.row = row;
         this.col = col;
     }
@@ -13,6 +12,7 @@ public class Giraffe implements Animal {
     public int getRow() {
         return row;
     }
+
 
     public int getCol() {
         return col;
@@ -34,7 +34,8 @@ public class Giraffe implements Animal {
 
     @Override
     public String toString() {
-        return "Gir{"+row +"-"+ col +
+        return "Li{"+row +"-"+ col +
                 '}';
     }
+
 }

@@ -2,12 +2,12 @@ package pl.altkom;
 
 import pl.altkom.animals.Animal;
 import pl.altkom.animals.Giraffe;
+import pl.altkom.animals.Lion;
 import pl.altkom.animals.Zebra;
 import pl.altkom.plants.Acacia;
 import pl.altkom.plants.Grass;
 
 import java.util.*;
-import java.util.function.UnaryOperator;
 
 public class Savanna {
     private Set<Cell> cells;
@@ -21,7 +21,7 @@ public class Savanna {
         this.rows = rows;
         this.cols = cols;
         this.animals = new ArrayList<>();
-        this.cells = new HashSet<Cell>();
+        this.cells = new LinkedHashSet<>();
         Random random = new Random();
 
         //tworzymy pustą plansze
@@ -37,7 +37,7 @@ public class Savanna {
                 r = random.nextInt(rows);
                 c = random.nextInt(cols);
                 for(Cell cell: cells){
-                    if(cell.getRow()==r && cell.getColumn()==c){
+                    if(cell.getRow()==r && cell.getCol()==c){
                         cell.withTree(new Acacia());
                     }
                 }
@@ -50,37 +50,56 @@ public class Savanna {
             }
         }
 
-        //dodajemy zwierzęta do Sawanny
-        for(int i =0; i< animals;i++){
-            this.animals.add(new Zebra(random.nextInt(rows),random.nextInt(cols)));
+        //dodajemy losowe zwierzęta do Sawanny
+            for(int i =0; i< animals;i++){
+                int r = random.nextInt(3);
+            if(r==0){
+                this.animals.add(new Zebra(random.nextInt(rows),random.nextInt(cols)));
+            }else if(r==1){
+                this.animals.add(new Giraffe(random.nextInt(rows),random.nextInt(cols)));
+            }else if(r==2){
+                this.animals.add(new Lion(random.nextInt(rows),random.nextInt(cols)));
+            }
         }
 
     }
 
     //metoda symulująca upływ dnia, jednoczesny wzrost roślin, poruszanie się zwierząt
     public void oneDay() {
-
         cells.forEach(cell->cell.getPlant().grow());
-
-        animals.forEach(n->{
-            n.walk(random.nextInt(3));
-            if(n.getRow()>this.rows){
-                n.setRow(this.rows);
-            }else if (n.getRow()<0){
-                n.setRow(0);
+        animals.forEach(a->{
+            a.walk(random.nextInt(2));
+            if(a.getRow()>=this.rows){
+                a.setRow(this.rows-1);
+            }else if (a.getRow()<0){
+                a.setRow(0);
             }
-            if(n.getCol()>this.cols){
-                n.setCol(this.cols);
-            }else if (n.getCol()<0){
-                n.setCol(0);
+            if(a.getCol()>=this.cols){
+                a.setCol(this.cols-1);
+            }else if (a.getCol()<0){
+                a.setCol(0);
             }
         });
     }
 
-
-    private void forEach(UnaryOperator<Cell> f) {
-
+    public void toFeed() {
+        for (Animal animal : animals) {
+            for (Cell cell : cells) {
+                if (animal.getRow() == cell.getRow() && animal.getCol() == cell.getCol()) {
+                    if (animal.getClass().getSimpleName().equalsIgnoreCase("Zebra")
+                            & cell.getPlant().getClass().getSimpleName().equalsIgnoreCase("Grass")) {
+                        cell.getPlant().beEaten();
+                        cell.getPlant().setPlantSize0();
+                    } else if (animal.getClass().getSimpleName().equalsIgnoreCase("Giraffe")
+                            & cell.getPlant().getClass().getSimpleName().equalsIgnoreCase("Acacia")) {
+                        cell.getPlant().beEaten();
+                        cell.getPlant().setPlantSize0();
+                    }
+                }
+            }
+        }
     }
+
 
     public Set<Cell> getCells() {
         return cells;

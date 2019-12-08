@@ -10,16 +10,59 @@ public class App
 {
     public static void main( String[] args )
     {
-        Savanna savanna = new Savanna(10,10,10,2);
-       Set<Cell> plansza =  savanna.getCells();
-       List<Animal> zwierzeta = savanna.getAnimals();
+        Savanna savanna = new Savanna(3,3,5,3);
+        List<Animal> zwierzeta = savanna.getAnimals();
 
-        for (Animal animal: zwierzeta
-             ) {
-            System.out.println(animal);
-        }
+
         System.out.println("Day1");
         savanna.oneDay();
 
+        for(Cell cell:savanna.getCells()){
+            System.out.print(cell.getRow()+"-");
+            System.out.print(cell.getCol());
+            cell.getPlant().plantSize();
+            System.out.print(" ");
+    }
+        System.out.println();
+        for (Animal animal: zwierzeta
+        ) {
+            System.out.print(animal);
+            System.out.print(", ");
+        }
+        System.out.println();
+        savanna.toFeed();
+
+        for(Cell cell:savanna.getCells()){
+            System.out.print(cell.getRow()+"-");
+            System.out.print(cell.getCol());
+            cell.getPlant().plantSize();
+            System.out.print(" ");
+        }
+        System.out.println();
+        System.out.println("Day2");
+        savanna.oneDay();
+
+        for(Cell cell:savanna.getCells()){
+            System.out.print(cell.getRow()+"-");
+            System.out.print(cell.getCol());
+            cell.getPlant().plantSize();
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        for (Animal animal: zwierzeta
+        ) {
+            System.out.print(animal);
+            System.out.print(", ");
+        }
+        System.out.println();
+        savanna.toFeed();
+
+        for(Cell cell:savanna.getCells()){
+            System.out.print(cell.getRow()+"-");
+            System.out.print(cell.getCol());
+            cell.getPlant().plantSize();
+            System.out.print(" ");
+        }
     }
 }

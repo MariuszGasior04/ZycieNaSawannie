@@ -8,7 +8,6 @@ import java.util.Objects;
 
 public class Cell {
     private Plant plant;
-    private boolean isAnimal;
     private int row;
     private int column;
 
@@ -27,7 +26,7 @@ public class Cell {
         return row;
     }
 
-    public int getColumn() {
+    public int getCol() {
         return column;
     }
 

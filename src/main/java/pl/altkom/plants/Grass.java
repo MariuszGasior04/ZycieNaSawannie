@@ -11,4 +11,13 @@ public class Grass implements Plant {
     public void beEaten() {
         size -= 2;
     }
+
+    public void plantSize() {
+        System.out.print("G"+size);
+    }
+
+    public void setPlantSize0() {
+        if(this.size<0){
+        this.size =0;}
+    }
 }
