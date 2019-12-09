@@ -1,5 +1,7 @@
 package pl.altkom.animals;
 
+import java.util.Objects;
+
 public class Zebra implements Animal {
     private int row;
     private int col;
@@ -14,6 +16,11 @@ public class Zebra implements Animal {
     public void walk(int dist) {
         this.row+= dist;
         this.col+= dist;
+    }
+
+    @Override
+    public Animal reproduce() {
+        return new Zebra(this.row, this.col);
     }
 
     public int getRow() {
@@ -36,5 +43,19 @@ public class Zebra implements Animal {
     public String toString() {
         return "Zeb{"+row +"-"+ col +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Zebra)) return false;
+        Zebra zebra = (Zebra) o;
+        return getRow() == zebra.getRow() &&
+                getCol() == zebra.getCol();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRow(), getCol());
     }
 }

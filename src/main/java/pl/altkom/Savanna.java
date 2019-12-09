@@ -8,6 +8,7 @@ import pl.altkom.plants.Acacia;
 import pl.altkom.plants.Grass;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Savanna {
     private Set<Cell> cells;
@@ -81,7 +82,7 @@ public class Savanna {
             }
         });
     }
-
+    //metoda symulująca żerowaie zwierząt roślinożernych
     public void toFeed() {
         for (Animal animal : animals) {
             for (Cell cell : cells) {
@@ -100,6 +101,25 @@ public class Savanna {
         }
     }
 
+    //metoda symulujaca rozmnażanie się zwierząt (jak na razie animale są obojnakami)
+    public void toBreed(){
+        animals.stream()
+                .filter(i -> Collections.frequency(animals, i) >1)
+                .collect(Collectors.toSet())
+                .forEach(animal -> animals.add(animal.reproduce()));
+    }
+
+    //metoda symulująca polowanie na zwierzęta roślinożerne
+    public void toHunt() {
+        Set<Animal> lionSet = animals.stream()
+                .filter(animal -> animal.getClass().getSimpleName().equalsIgnoreCase("Lion"))
+                .collect(Collectors.toSet());
+        for (Animal lion:lionSet) {
+            animals.removeIf(animal -> !animal.getClass().getSimpleName().equalsIgnoreCase("Lion")
+                    && lion.getCol()==animal.getCol()
+                    && lion.getRow()==animal.getRow());
+            }
+        }
 
     public Set<Cell> getCells() {
         return cells;

@@ -1,5 +1,7 @@
 package pl.altkom.animals;
 
+import java.util.Objects;
+
 public class Lion implements Animal {
     private int row;
     private int col;
@@ -12,7 +14,6 @@ public class Lion implements Animal {
     public int getRow() {
         return row;
     }
-
 
     public int getCol() {
         return col;
@@ -33,9 +34,27 @@ public class Lion implements Animal {
     }
 
     @Override
+    public Animal reproduce() {
+        return new Lion(this.row,this.col);
+    }
+
+    @Override
     public String toString() {
         return "Li{"+row +"-"+ col +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Lion)) return false;
+        Lion lion = (Lion) o;
+        return getRow() == lion.getRow() &&
+                getCol() == lion.getCol();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRow(), getCol());
+    }
 }

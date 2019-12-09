@@ -6,4 +6,5 @@ public interface Animal {
     void setRow(int row);
     void setCol(int col);
     void walk(int dist);
+    public Animal reproduce();
 }
