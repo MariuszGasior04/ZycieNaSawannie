@@ -2,122 +2,49 @@ package pl.altkom;
 
 
 import pl.altkom.animals.Animal;
-
 import java.util.List;
 
 
 public class App
 {
-    public static void main( String[] args )
-    {
-        Savanna savanna = new Savanna(4,4,5,6);
+    public static void main( String[] args ) {
+        Savanna savanna = new Savanna(10, 10, 20, 10,10,3);
         List<Animal> zwierzeta = savanna.getAnimals();
 
-        System.out.println("Day1 - dzień startowy");
-        savanna.oneDay();
+        for (int day = 1; day < 30; day++) {
+            System.out.printf("Dzień %d",day);
+            System.out.println();
 
-        for(Cell cell:savanna.getCells()){
-            System.out.print(cell.getRow()+"-");
-            System.out.print(cell.getCol());
-            cell.getPlant().plantSize();
-            System.out.print(" ");
-    }
-        System.out.println();
-        for (Animal animal: zwierzeta
-        ) {
-            System.out.print(animal);
-            System.out.print(", ");
-        }
-        System.out.println();
-        savanna.toFeed();
+            savanna.oneDay();
+            //drukowanie stanu poszczegolnych komórek sawanny [row]-[col][plant][size] G-grass T-tree
+            for (Cell cell : savanna.getCells()) {
+                System.out.print(cell.getRow() + "-");
+                System.out.print(cell.getCol());
+                cell.getPlant().plantSize();
+                System.out.print(" ");
+            }
+            System.out.println();
 
-        for(Cell cell:savanna.getCells()){
-            System.out.print(cell.getRow()+"-");
-            System.out.print(cell.getCol());
-            cell.getPlant().plantSize();
-            System.out.print(" ");
-        }
-        System.out.println();
-        System.out.println("Day2 - pierwsze żerowanie");
-        savanna.oneDay();
+            //drukowanie stanu poszczegolnych zwierząt sawanny [Animal]{[row]-[col]} Zeb-zebra, Gir-giraffe, Li-Lion
+            for (Animal animal : zwierzeta) {
+                System.out.print(animal);
+                System.out.print(", ");
+            }
+            System.out.printf("Na sawannie jest %d zwierząt",zwierzeta.size());
+            System.out.println();
 
-        for(Cell cell:savanna.getCells()){
-            System.out.print(cell.getRow()+"-");
-            System.out.print(cell.getCol());
-            cell.getPlant().plantSize();
-            System.out.print(" ");
-        }
-        System.out.println();
+            //zwierzęta roślinożerne żerują
+            savanna.toFeed();
 
-        for (Animal animal: zwierzeta
-        ) {
-            System.out.print(animal);
-            System.out.print(", ");
-        }
-        System.out.println();
-        savanna.toFeed();
+            //zwierzęta mięsożerne polują co 7 dni
+            if(day % 7==0){
+                savanna.toHunt();
+            }
+            //zwierzęta rodzą się co 5
+            if(day % 5==0){
+                savanna.toBreed();
+            }
 
-        for(Cell cell:savanna.getCells()){
-            System.out.print(cell.getRow()+"-");
-            System.out.print(cell.getCol());
-            cell.getPlant().plantSize();
-            System.out.print(" ");
-        }
-
-        savanna.toBreed();
-
-        System.out.println();
-        System.out.println("Day3 - po rozmnażaniu");
-        savanna.oneDay();
-
-        for(Cell cell:savanna.getCells()){
-            System.out.print(cell.getRow()+"-");
-            System.out.print(cell.getCol());
-            cell.getPlant().plantSize();
-            System.out.print(" ");
-        }
-        System.out.println();
-
-        for (Animal animal: zwierzeta
-        ) {
-            System.out.print(animal);
-            System.out.print(", ");
-        }
-        System.out.println();
-        savanna.toFeed();
-
-        for(Cell cell:savanna.getCells()){
-            System.out.print(cell.getRow()+"-");
-            System.out.print(cell.getCol());
-            cell.getPlant().plantSize();
-            System.out.print(" ");
-        }
-        savanna.toHunt();
-        System.out.println();
-        System.out.println("Day4 - po polowaniu");
-        savanna.oneDay();
-
-        for(Cell cell:savanna.getCells()){
-            System.out.print(cell.getRow()+"-");
-            System.out.print(cell.getCol());
-            cell.getPlant().plantSize();
-            System.out.print(" ");
-        }
-        System.out.println();
-
-        for (Animal animal: zwierzeta
-        ) {
-            System.out.print(animal);
-            System.out.print(", ");
-        }
-        System.out.println();
-        savanna.toFeed();
-
-        for(Cell cell:savanna.getCells()){
-            System.out.print(cell.getRow()+"-");
-            System.out.print(cell.getCol());
-            cell.getPlant().plantSize();
-            System.out.print(" ");
         }
     }
 }

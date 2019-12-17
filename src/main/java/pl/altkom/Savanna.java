@@ -8,6 +8,7 @@ import pl.altkom.plants.Acacia;
 import pl.altkom.plants.Grass;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Savanna {
@@ -18,7 +19,7 @@ public class Savanna {
     Random random = new Random();
 
     //konstruktor sawanny
-    public Savanna(int rows, int cols, int trees, int animals) {
+    public Savanna(int rows, int cols, int trees, int zebras, int giraffes, int lions) {
         this.rows = rows;
         this.cols = cols;
         this.animals = new ArrayList<>();
@@ -51,25 +52,24 @@ public class Savanna {
             }
         }
 
-        //dodajemy losowe zwierzęta do Sawanny
-            for(int i =0; i< animals;i++){
-                int r = random.nextInt(3);
-            if(r==0){
-                this.animals.add(new Zebra(random.nextInt(rows),random.nextInt(cols)));
-            }else if(r==1){
-                this.animals.add(new Giraffe(random.nextInt(rows),random.nextInt(cols)));
-            }else if(r==2){
-                this.animals.add(new Lion(random.nextInt(rows),random.nextInt(cols)));
+        //dodajemy zwierzęta do Sawanny
+        for(int i =0; i< zebras;i++){
+            this.animals.add(new Zebra(random.nextInt(rows),random.nextInt(cols)));
             }
+        for(int i =0; i< giraffes;i++){
+            this.animals.add(new Giraffe(random.nextInt(rows),random.nextInt(cols)));
         }
-
-    }
+        for(int i =0; i< lions;i++){
+            this.animals.add(new Lion(random.nextInt(rows),random.nextInt(cols)));
+        }
+        }
 
     //metoda symulująca upływ dnia, jednoczesny wzrost roślin, poruszanie się zwierząt
     public void oneDay() {
         cells.forEach(cell->cell.getPlant().grow());
         animals.forEach(a->{
-            a.walk(random.nextInt(2));
+            a.walk(random.nextInt(3)-1);
+
             if(a.getRow()>=this.rows){
                 a.setRow(this.rows-1);
             }else if (a.getRow()<0){
@@ -82,6 +82,7 @@ public class Savanna {
             }
         });
     }
+
     //metoda symulująca żerowaie zwierząt roślinożernych
     public void toFeed() {
         for (Animal animal : animals) {
@@ -106,8 +107,34 @@ public class Savanna {
         animals.stream()
                 .filter(i -> Collections.frequency(animals, i) >1)
                 .collect(Collectors.toSet())
-                .forEach(animal -> animals.add(animal.reproduce()));
+                .forEach(animal -> {
+                    animals.add(animal.reproduce());
+                    System.out.println(animal.getClass().getSimpleName()+"+1");
+                });
     }
+
+    //Predykat wykorzystywany później w metodzie na polowanie.
+    // Utworzony, aby przy zwracaniu wartości TRUE wyrzucał na ekran upolowane zwierze
+    private class HuntPredicate implements Predicate{
+        private Animal lion;
+
+        public void setLion(Animal lion) {
+            this.lion = lion;
+        }
+
+        @Override
+        public boolean test(Object oAnimal) {
+            Animal animal = (Animal) oAnimal;
+            if(!animal.getClass().getSimpleName().equalsIgnoreCase("Lion")
+                    && lion.getCol()==animal.getCol()
+                    && lion.getRow()==animal.getRow()){
+                System.out.println(animal.getClass().getSimpleName()+" eaten");
+                return true;
+            }
+            return false;
+        }
+    }
+    HuntPredicate huntPredicate = new HuntPredicate();
 
     //metoda symulująca polowanie na zwierzęta roślinożerne
     public void toHunt() {
@@ -115,9 +142,8 @@ public class Savanna {
                 .filter(animal -> animal.getClass().getSimpleName().equalsIgnoreCase("Lion"))
                 .collect(Collectors.toSet());
         for (Animal lion:lionSet) {
-            animals.removeIf(animal -> !animal.getClass().getSimpleName().equalsIgnoreCase("Lion")
-                    && lion.getCol()==animal.getCol()
-                    && lion.getRow()==animal.getRow());
+            huntPredicate.setLion(lion); //setLion w lionSet'ie
+            animals.removeIf(huntPredicate);
             }
         }
 
